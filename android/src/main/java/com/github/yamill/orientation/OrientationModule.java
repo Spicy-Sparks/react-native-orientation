@@ -1,5 +1,7 @@
 package com.github.yamill.orientation;
 
+import static android.content.Context.RECEIVER_EXPORTED;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.util.Log;
 
 import com.facebook.common.logging.FLog;
@@ -150,7 +153,12 @@ public class OrientationModule extends ReactContextBaseJavaModule implements Lif
             FLog.e(ReactConstants.TAG, "no activity to register receiver");
             return;
         }
-        activity.registerReceiver(receiver, new IntentFilter("onConfigurationChanged"));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            activity.registerReceiver(receiver, new IntentFilter("onConfigurationChanged"), Context.RECEIVER_VISIBLE_TO_INSTANT_APPS);
+        }else {
+            activity.registerReceiver(receiver, new IntentFilter("onConfigurationChanged"));
+        }
     }
     @Override
     public void onHostPause() {
