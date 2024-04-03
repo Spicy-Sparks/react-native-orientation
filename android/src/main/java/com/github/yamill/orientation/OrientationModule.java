@@ -155,7 +155,7 @@ public class OrientationModule extends ReactContextBaseJavaModule implements Lif
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            activity.registerReceiver(receiver, new IntentFilter("onConfigurationChanged"), Context.RECEIVER_VISIBLE_TO_INSTANT_APPS);
+            activity.registerReceiver(receiver, new IntentFilter("onConfigurationChanged"), RECEIVER_EXPORTED);
         }else {
             activity.registerReceiver(receiver, new IntentFilter("onConfigurationChanged"));
         }
